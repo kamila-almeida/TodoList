@@ -113,7 +113,8 @@ namespace TodoList.Application.Services
         public async Task<BaseModel<List<TodoItemResultModel>>> ListAsync(int page, int pageSize, bool? delayedItems)
         {
             var todoItem = _mapper.Map<List<TodoItem>>(await _todoItemRepository.ListAsync());
-            todoItem = todoItem.Where(x => delayedItems == null || x.DueDate.Date < DateTime.Now.Date == delayedItems)
+            todoItem = todoItem.Where(x => delayedItems == null || 
+            (x.DueDate.Date < DateTime.Now.Date == delayedItems && x.EndDate == null))
                 .Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var result = _mapper.Map<List<TodoItemResultModel>>(todoItem);

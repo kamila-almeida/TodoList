@@ -15,6 +15,11 @@ namespace TodoList.Application.Mappers
                 .ForMember(p => p.Profile, p => p.MapFrom(x => x.Profile))
                 .ForMember(p => p.Token, p => p.Ignore())
                 .ReverseMap();
+
+            CreateMap<User, LoginModel>()
+                .ForMember(p => p.Email, p => p.MapFrom(x => x.Email))
+                .ForMember(p => p.Password, p => p.MapFrom(x => x.Password))
+                .ReverseMap();
         }        
     }
 }
