@@ -7,5 +7,6 @@ namespace TodoList.Application.Services.Interfaces
     {
         Task<BaseModel<UserModel>> Authenticate(LoginModel loginModel);
         Task<BaseModel<UserRegisterModel>> CreateUserAsync(UserRegisterModel userModel);
+        int GetUserId(string email);
     }
 }

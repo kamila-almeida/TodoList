@@ -9,10 +9,10 @@ namespace TodoList.Infra.Data
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         public DbSet<User> User { get; set; }
-        public DbSet<TodoItem> TodoList { get; set; }
+        public DbSet<TodoItem> TodoItem{ get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("TodoListDB");
+            optionsBuilder.UseInMemoryDatabase("TodoListDB");                       
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

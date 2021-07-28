@@ -25,5 +25,10 @@ namespace TodoList.Infra.Data.Repository
             _context.Set<User>().Add(user);
             await _context.SaveChangesAsync();
         }
+
+        public int GetUserIdByEmail(string email)
+        {
+           return _context.User.Where(x => x.Email == email).Select(x=>x.Id).FirstOrDefault();
+        }
     }
 }

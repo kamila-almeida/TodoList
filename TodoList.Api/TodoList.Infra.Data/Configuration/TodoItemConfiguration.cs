@@ -9,6 +9,8 @@ namespace TodoList.Infra.Data.Configuration
         public void Configure(EntityTypeBuilder<TodoItem> builder)
         {
             builder.HasKey(c => c.Id);
+            builder.Property(c => c.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }

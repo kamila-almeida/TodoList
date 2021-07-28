@@ -1,8 +1,8 @@
 ﻿namespace TodoList.Application.Models
 {
-    public class UserRegisterModel
+    public class UserResultModel
     {
+        public int Id { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
     }
 }

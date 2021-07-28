@@ -15,8 +15,8 @@ namespace TodoList.Application.Mappers
                 .ForMember(t => t.UpdateDate, t => t.MapFrom(x => x.UpdateDate))
                 .ForMember(t => t.EndDate, t => t.MapFrom(x => x.EndDate))
                 .ForMember(t => t.DueDate, t => t.MapFrom(x => x.DueDate))
-                .ForMember(t => t.User, t => t.MapFrom(x => x.User))
-                .ReverseMap();
+                .ForMember(t => t.UserId, t => t.MapFrom(x => x.UserId))
+                .ReverseMap();            
         }
     }
 }

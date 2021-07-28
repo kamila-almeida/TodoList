@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 using TodoList.Api.Extensions;
+using TodoList.Api.Middleware;
 using TodoList.Application.Mappers;
 using TodoList.Infra.Data;
 using TodoList.Shared;
@@ -68,6 +69,32 @@ namespace TodoList.Api
                         Url = new Uri("https://github.com/kamila-almeida")
                     },
                 });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "After the token creation in authentication route, type the JWT token as follows : Bearer {token}",
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
+
             });
         }
 
@@ -86,10 +113,13 @@ namespace TodoList.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.ConfigureExceptionHandler(Configuration.GetValue<bool>("InternalServerErrorWithException"));
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
 
     }

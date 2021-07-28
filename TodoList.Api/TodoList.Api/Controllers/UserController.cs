@@ -27,6 +27,7 @@ namespace TodoList.Api.Controllers
         }
 
         [HttpPost]
+        [Route("Create")]
         public async Task<IActionResult> Post([FromBody] UserRegisterModel userRegisterModel)
         {
             if (userRegisterModel is null)

@@ -7,5 +7,6 @@ namespace TodoList.Domain.Repositories
     {
         Task<User> AuthenticateAsync(string email, string password);
         Task CreateUser(User user);
+        int GetUserIdByEmail(string email);
     }
 }

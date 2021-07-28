@@ -4,13 +4,13 @@ using TodoList.Domain.Entities;
 
 namespace TodoList.Application.Mappers
 {
-    public class UserRegisterMapper : Profile
+    public class UserResultMapper : Profile
     {
-        public UserRegisterMapper()
+        public UserResultMapper()
         {
-            CreateMap<User, UserRegisterModel>()
+            CreateMap<User, UserResultModel>()
+                .ForMember(p => p.Id, p => p.MapFrom(x => x.Id))
                 .ForMember(p => p.Email, p => p.MapFrom(x => x.Email))
-                .ForMember(p => p.Password, p => p.MapFrom(x => x.Password))
                 .ReverseMap();
         }
     }

@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using TodoList.Application.Models;
 using TodoList.Application.Services.Interfaces;
+using TodoList.Application.Validators;
 using TodoList.Domain.Entities;
 using TodoList.Domain.Enums;
 using TodoList.Domain.Repositories;
+using TodoList.Shared;
 
 namespace TodoList.Application.Services
 {
@@ -23,7 +25,7 @@ namespace TodoList.Application.Services
 
         public async Task<BaseModel<UserModel>> Authenticate(LoginModel loginModel)
         {
-            var result = await _userRepository.AuthenticateAsync(loginModel.Email, loginModel.Password);
+            var result = await _userRepository.AuthenticateAsync(loginModel.Email, Md5HashExtensions.CreateMD5(loginModel.Password));
 
             if (result == default)
             {
@@ -39,13 +41,27 @@ namespace TodoList.Application.Services
 
         public async Task<BaseModel<UserRegisterModel>> CreateUserAsync(UserRegisterModel userModel)
         {
+            var validator = await new UserValidator().ValidateAsync(userModel);
+            if (!validator.IsValid)
+            {
+                return new BaseModel<UserRegisterModel>(false, validator.Errors);
+            }
+
+            if(_userRepository.GetUserIdByEmail(userModel.Email) > 0)
+            {
+                return new BaseModel<UserRegisterModel>(false, EMessages.UserAlreadyExists);
+            }
+
             var user = _mapper.Map<User>(userModel);
+            user.Password = Md5HashExtensions.CreateMD5(userModel.Password);
+            user.Profile = Domain.EProfile.Client;
             await _userRepository.CreateUser(user);
-            return new BaseModel<UserRegisterModel>(
-                success: true, 
-                message: EMessages.Success, 
-                data: _mapper.Map<UserRegisterModel>(user)
-            );
+            return new BaseModel<UserRegisterModel>(true, EMessages.Success, _mapper.Map<UserRegisterModel>(user));
+        }
+
+        public int GetUserId(string email)
+        {
+            return _userRepository.GetUserIdByEmail(email);
         }
     }
 }
