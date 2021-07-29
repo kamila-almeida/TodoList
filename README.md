@@ -18,6 +18,7 @@ Credenciais de administrador:<br />
 * In-Memory database
 * Entity Framework Core
 * Autenticação com JWT
+* Hash MD5 para senhas
 
 # Executar projeto (cmd)
 > Acessar diretório **../TodoList.Api/TodoList.Api** e rodar comando **dotnet run**<br />
